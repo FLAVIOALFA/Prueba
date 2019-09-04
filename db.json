@@ -1,3 +1,6 @@
 {
-    
+    "posts": {
+        "id": 1,
+        "name": "Testing"
+    }
 }
