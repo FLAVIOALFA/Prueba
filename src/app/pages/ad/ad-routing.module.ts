@@ -3,13 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdComponent } from './ad.component';
 
 const routes: Routes = [
-    { path: '/ad', component: AdComponent },
-    { path: '', redirectTo: '/ad' },
-    { path: '**', redirectTo: '/ad', pathMatch: 'full'},
+    { path: 'ad', component: AdComponent },
+    { path: '', redirectTo: 'ad' },
+    { path: '**', redirectTo: 'ad', pathMatch: 'full'},
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
 export class AdRoutingModule { }
