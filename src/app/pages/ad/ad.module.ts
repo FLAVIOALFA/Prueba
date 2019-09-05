@@ -3,6 +3,7 @@
 // ====================
 import { NgModule } from '@angular/core';
 import { AdRoutingModule } from './ad-routing.module';
+import { MatButtonModule, MatIconModule, MatMenuModule} from '@angular/material';
 // ====================
 // COMPONENTS
 // ====================
@@ -19,7 +20,12 @@ import { AdComponent } from './ad.component';
         TagsComponent,
         TagComponent
     ],
-    imports: [ AdRoutingModule ]
+    imports: [
+        AdRoutingModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule
+    ]
 })
 
 export class AdModule { }

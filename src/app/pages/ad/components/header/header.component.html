@@ -1,3 +1,38 @@
-<p>
-  navbar works!
-</p>
+<div class="w-100 header">
+  <div class="navbar w-100">
+    <!-- =================== -->
+    <!-- Left item -->
+    <!-- =================== -->
+    <div>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span class="title">Spot</span>
+    </div>
+    <!-- =================== -->
+    <!-- Right item -->
+    <!-- =================== -->
+    <div>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>send</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>dialpad</mat-icon>
+          <span>Redial</span>
+        </button>
+        <button mat-menu-item disabled>
+          <mat-icon>voicemail</mat-icon>
+          <span>Check voice mail</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>notifications_off</mat-icon>
+          <span>Disable alerts</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</div>
