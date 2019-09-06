@@ -3,7 +3,10 @@
 // ====================
 import { NgModule } from '@angular/core';
 import { AdRoutingModule } from './ad-routing.module';
-import { MatButtonModule, MatIconModule, MatMenuModule} from '@angular/material';
+import {
+    MatButtonModule, MatIconModule, MatMenuModule,
+    MatFormFieldModule, MatChipsModule, MatAutocompleteModule
+} from '@angular/material';
 // ====================
 // COMPONENTS
 // ====================
@@ -12,6 +15,8 @@ import { SpotComponent } from './components/spot/spot.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { TagComponent } from './components/tags/tag/tag.component';
 import { AdComponent } from './ad.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 @NgModule({
     declarations: [
         HeaderComponent,
@@ -21,10 +26,16 @@ import { AdComponent } from './ad.component';
         TagComponent
     ],
     imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
         AdRoutingModule,
         MatButtonModule,
         MatIconModule,
-        MatMenuModule
+        MatMenuModule,
+        MatFormFieldModule,
+        MatChipsModule,
+        MatAutocompleteModule
     ]
 })
 
