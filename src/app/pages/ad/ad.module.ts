@@ -15,6 +15,7 @@ import { SpotComponent } from './components/spot/spot.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { TagComponent } from './components/tags/tag/tag.component';
 import { AdComponent } from './ad.component';
+import { ReproductionControlComponent } from './components/reproduction-control/reproduction-control.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 @NgModule({
@@ -23,7 +24,8 @@ import { CommonModule } from '@angular/common';
         SpotComponent,
         AdComponent,
         TagsComponent,
-        TagComponent
+        TagComponent,
+        ReproductionControlComponent
     ],
     imports: [
         CommonModule,
