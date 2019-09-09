@@ -7,6 +7,9 @@ import {
     MatButtonModule, MatIconModule, MatMenuModule,
     MatFormFieldModule, MatChipsModule, MatAutocompleteModule
 } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../shared/shared.module';
 // ====================
 // COMPONENTS
 // ====================
@@ -16,8 +19,6 @@ import { TagsComponent } from './components/tags/tags.component';
 import { TagComponent } from './components/tags/tag/tag.component';
 import { AdComponent } from './ad.component';
 import { ReproductionControlComponent } from './components/reproduction-control/reproduction-control.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 @NgModule({
     declarations: [
         HeaderComponent,
@@ -31,13 +32,14 @@ import { CommonModule } from '@angular/common';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        SharedModule,
         AdRoutingModule,
         MatButtonModule,
         MatIconModule,
         MatMenuModule,
         MatFormFieldModule,
         MatChipsModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
     ]
 })
 
