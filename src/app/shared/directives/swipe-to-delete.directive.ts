@@ -19,23 +19,41 @@ export class SwipeToDeleteDirective {
   ) {
     this.deleteElement = new EventEmitter<any>();
     this.renderer.setStyle(this.el.nativeElement, 'overflow', 'hidden');
+    this.renderer.setStyle(this.el.nativeElement, 'position', 'relative');
     this.addDeleteBox();
     this.listenEvents();
   }
 
   addDeleteBox() {
     setTimeout(() => {
-      const width = this.el.nativeElement.offsetWidth;
-      const height = this.el.nativeElement.offsetHeight;
-      console.log('width', width);
-      console.log('height', height);
+      const parent = this.el.nativeElement.parentNode;
+      const div = this.createDivContainer();
+      const img = this.createTrashImage();
+      this.renderer.appendChild(div, img);
+      this.renderer.appendChild(parent, div);
     }, 30);
+  }
+
+  createTrashImage(): HTMLElement {
+    const img: HTMLImageElement = this.renderer.createElement('img');
+    img.src = 'assets/images/trashWhite.png';
+    this.renderer.setStyle(img, 'position', 'absolute');
+    this.renderer.setStyle(img, 'top', '29%');
+    this.renderer.setStyle(img, 'right', '20%');
+    this.renderer.setStyle(img, 'max-height', '40%');
+    return img;
+  }
+
+  createDivContainer(): HTMLElement {
+    const { height } = this.el.nativeElement.getBoundingClientRect();
     const div = this.renderer.createElement('div');
-    // this.renderer.setStyle(div, 'width', '30%');
-    // this.renderer.setStyle(div, 'height', '91%');
+    this.renderer.setStyle(div, 'width', `40%`);
+    this.renderer.setStyle(div, 'height', `${height - 10}px`);
     this.renderer.setStyle(div, 'background', 'red');
-    // this.renderer.setStyle
-    this.renderer.appendChild(this.el.nativeElement, div);
+    this.renderer.setStyle(div, 'z-index', '-1');
+    this.renderer.setStyle(div, 'position', 'absolute');
+    this.renderer.setStyle(div, 'right', '0');
+    return div;
   }
 
   listenEvents() {
@@ -93,11 +111,11 @@ export class SwipeToDeleteDirective {
       // If is the last event emitted, verify if we must open a dialog or reset the position
       if (data.label === 'end') {
         // Calculate the percentaje moved
-        const percentage = this.getPercentageMoved(+coords.x, +origin.x);
-        percentage >= 30 ? this.openDialog() : this.resetPosition();
+        const percentage = this.getPercentageMoved();
+        percentage >= 29 ? this.openDialog() : this.resetPosition();
       }
       // If the element is being moved, graph it
-      if (data.label === 'moving') {
+      if (data.label === 'moving' && this.getPercentageMoved() <= 29) {
         this.setPosition(origin.x, coords.x);
       }
     });
@@ -109,15 +127,19 @@ export class SwipeToDeleteDirective {
   // =============================
   setPosition(origin, x) {
     let marginRight = 0;
-    if (x < origin) { marginRight = origin - x; }
+    if (x < origin) {
+      marginRight = origin - x;
+    }
     this.renderer.setStyle(this.el.nativeElement, 'margin-left', `-${marginRight}px`);
   }
 
   // =============================
   // CALCULATE THE PERCENTAGE MOVED TO LEFT
   // =============================
-  getPercentageMoved(x: number, origin: number) {
-    return Math.round(((origin - x) * 100) / origin);
+  getPercentageMoved() {
+    const widthElement = this.el.nativeElement.offsetWidth;
+    const { x } = this.el.nativeElement.getBoundingClientRect();
+    return Math.round((Math.abs(x) * 100) / widthElement);
   }
 
   // =============================
@@ -131,7 +153,7 @@ export class SwipeToDeleteDirective {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if ( result ) {
+      if (result) {
         this.deleteElement.emit();
       }
     });

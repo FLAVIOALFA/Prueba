@@ -1,8 +1,8 @@
-<h1 mat-dialog-title>{{data.title}}</h1>
+<h1 class="dialog-title" mat-dialog-title>{{data.title}}</h1>
 <div mat-dialog-content>
   <ng-content></ng-content>
 </div>
-<div mat-dialog-actions>
+<div class="dialog-footer" mat-dialog-actions>
   <button mat-button (click)="cancel()">Cancelar</button>
   <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Confirmar</button>
 </div>
