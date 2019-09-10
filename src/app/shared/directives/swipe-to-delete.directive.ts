@@ -18,7 +18,24 @@ export class SwipeToDeleteDirective {
     public dialog: MatDialog
   ) {
     this.deleteElement = new EventEmitter<any>();
+    this.renderer.setStyle(this.el.nativeElement, 'overflow', 'hidden');
+    this.addDeleteBox();
     this.listenEvents();
+  }
+
+  addDeleteBox() {
+    setTimeout(() => {
+      const width = this.el.nativeElement.offsetWidth;
+      const height = this.el.nativeElement.offsetHeight;
+      console.log('width', width);
+      console.log('height', height);
+    }, 30);
+    const div = this.renderer.createElement('div');
+    // this.renderer.setStyle(div, 'width', '30%');
+    // this.renderer.setStyle(div, 'height', '91%');
+    this.renderer.setStyle(div, 'background', 'red');
+    // this.renderer.setStyle
+    this.renderer.appendChild(this.el.nativeElement, div);
   }
 
   listenEvents() {
@@ -81,7 +98,7 @@ export class SwipeToDeleteDirective {
       }
       // If the element is being moved, graph it
       if (data.label === 'moving') {
-        this.setPosition(origin.x, coords.x, element);
+        this.setPosition(origin.x, coords.x);
       }
     });
 
@@ -90,7 +107,7 @@ export class SwipeToDeleteDirective {
   // =============================
   // MOVE THE ELEMENT
   // =============================
-  setPosition(origin, x, element: HTMLElement) {
+  setPosition(origin, x) {
     let marginRight = 0;
     if (x < origin) { marginRight = origin - x; }
     this.renderer.setStyle(this.el.nativeElement, 'margin-left', `-${marginRight}px`);
@@ -108,7 +125,6 @@ export class SwipeToDeleteDirective {
   // =============================
   openDialog() {
     const dialogRef = this.dialog.open(DialogComponent, {
-      width: '250px',
       data: {
         title: '¿Desea eliminar el elemento?'
       }
