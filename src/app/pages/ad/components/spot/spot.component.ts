@@ -9,17 +9,25 @@ export class SpotComponent implements OnInit {
 
   // @ViewChild('videoPlayer', {static: false}) videoplayer: ElementRef;
   public url;
+  public player: YT.Player;
+  private id: string = 'SDtAuKQiRHc';
 
   constructor(
     private sanitizer: DomSanitizer
   ) { }
 
-  ngOnInit() {
-    this.url = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/SDtAuKQiRHc');
+  ngOnInit() { }
+ 
+  savePlayer(player) {
+    this.player = player;
+    this.player.playVideo();
+    setTimeout(() => {
+      this.player.pauseVideo();
+    }, 8000);
+    console.log('player instance', player);
   }
-
-  toggleVideo(event: any) {
-    // this.videoplayer.nativeElement.play();
+  onStateChange(event) {
+    console.log('player state', event.data);
   }
 
 }

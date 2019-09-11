@@ -9,6 +9,7 @@ import {
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 import { SharedModule } from '../../shared/shared.module';
 // ====================
 // COMPONENTS
@@ -40,6 +41,7 @@ import { ReproductionControlComponent } from './components/reproduction-control/
         MatFormFieldModule,
         MatChipsModule,
         MatAutocompleteModule,
+        NgxYoutubePlayerModule.forRoot()
     ]
 })
 
