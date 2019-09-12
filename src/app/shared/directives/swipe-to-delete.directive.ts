@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, Output, EventEmitter, Renderer2 } from '@angular/core';
 import { fromEvent, merge, Subject } from 'rxjs';
-import { map, scan, filter, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { map, scan, filter, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { DialogComponent } from '../components/dialog/dialog.component';
 
@@ -20,17 +20,17 @@ export class SwipeToDeleteDirective {
     this.deleteElement = new EventEmitter<any>();
     this.renderer.setStyle(this.el.nativeElement, 'overflow', 'hidden');
     this.renderer.setStyle(this.el.nativeElement, 'position', 'relative');
-    this.addDeleteBox();
+    // this.addDeleteBox();
     this.listenEvents();
   }
 
   addDeleteBox() {
+    const parent = this.el.nativeElement.parentNode;
+    const div = this.createDivContainer(this.el.nativeElement);
+    const img = this.createTrashImage();
+    this.renderer.appendChild(div, img);
+    this.renderer.appendChild(parent, div);
     setTimeout(() => {
-      const parent = this.el.nativeElement.parentNode;
-      const div = this.createDivContainer();
-      const img = this.createTrashImage();
-      this.renderer.appendChild(div, img);
-      this.renderer.appendChild(parent, div);
     }, 30);
   }
 
@@ -40,15 +40,20 @@ export class SwipeToDeleteDirective {
     this.renderer.setStyle(img, 'position', 'absolute');
     this.renderer.setStyle(img, 'top', '29%');
     this.renderer.setStyle(img, 'right', '20%');
-    this.renderer.setStyle(img, 'max-height', '40%');
+    this.renderer.setStyle(img, 'height', '40%');
     return img;
   }
 
-  createDivContainer(): HTMLElement {
-    const { height } = this.el.nativeElement.getBoundingClientRect();
+  createDivContainer(parent): HTMLElement {
+    const height = parent.childNodes.item(0).offsetHeight;
     const div = this.renderer.createElement('div');
+    if ( document.querySelector('#_divDeleter') ) {
+      this.renderer.removeChild(div, document.querySelector('#_divDeleter'));
+    }
+    this.renderer.setAttribute(div, 'id', `_divDeleter`);
     this.renderer.setStyle(div, 'width', `40%`);
-    this.renderer.setStyle(div, 'height', `${height - 10}px`);
+    this.renderer.setStyle(div, 'height', `${height}px`);
+    // this.renderer.setStyle(div, 'height', `100%`);
     this.renderer.setStyle(div, 'background', 'red');
     this.renderer.setStyle(div, 'z-index', '-1');
     this.renderer.setStyle(div, 'position', 'absolute');
@@ -63,6 +68,7 @@ export class SwipeToDeleteDirective {
     // CREATE OBSERVABLE WHEN MOUSE CLICK IS DOWN
     // ============================
     const mouseStart$ = fromEvent(element, 'touchstart').pipe(
+      tap( () => this.addDeleteBox()),
       map((event: TouchEvent) => ({
         label: 'start',
         coords: this.getClickCoods(event, element)
